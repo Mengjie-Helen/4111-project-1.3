@@ -37,10 +37,11 @@
 				<h1 class="text-big" id="program">
                     <li>Employee management</li>
                     <div class="rightNav">
-                        <input type="text" name="search" id="search">
-						<a href="/employee_manager_searching">
-                        <button class="btn btn-sm">Employee searching</button>
-						</a>
+                        <form action="/employee_searching" method="POST">
+							<p><input type="text" name="ssn" placeholder="type employee ssn" id="search"> 
+								<button class="btn btn-sm">Employee searching</button>
+							</p>	
+						</form>
                     </div>
                     <p>
                         Employee management is the effort to help employees do their best work each day 
@@ -63,10 +64,11 @@
 				<h1 class="text-big" id="program">
                     <li>Payment information</li>
 					<div class="rightNav">
-                        <input type="text" name="search" id="search">
-						<a href="/payment_information">
-                        <button class="btn btn-sm">Payment info searching</button>
-						</a>
+						<form action="/payment_searching" method="POST">
+							<p><input type="text" name="id" placeholder="type payment id" id="search"> 
+								<button class="btn btn-sm">Payment info searching</button>
+							</p>	
+						</form>
                     </div>
                     <p>
                         Payment records at every stage, right from quotation sharing to reporting, 
@@ -88,10 +90,11 @@
 					<h1 class="text-big" id="program">
 						<li>Supplier information</li>
 						<div class="rightNav">
-							<input type="text" name="search" id="search">
-							<a href="/Supplier_list">
-							<button class="btn btn-sm">Supplier searching</button>
-							</a>
+							<form action="/supplier_searching" method="POST">
+								<p><input type="text" name="id" placeholder="type supplier id" id="search"> 
+									<button class="btn btn-sm">Supplier searching</button>
+								</p>	
+							</form>
 						</div>
 						<p>
 							Supplier records at every stage, right from quotation sharing to reporting, 
