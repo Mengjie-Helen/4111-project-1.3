@@ -25,10 +25,29 @@
 			<a href="/store"><button class="btn btn-sm">Find a store</button></a>
 		</div>
 	</nav>
+
+	<style> 
+		.juzhong{text-align:center;
+			font-family: 'Piazzolla', serif;
+    		color: rgb(59, 104, 59);
+    		font-weight: bold;
+    		font-size: 45px;} 
+		</style>
+
 	<section class="firstsection">
-		<p>
-			{{shift}}
-		</p>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="juzhong">
+			{% for element in shift %}
+            <tr>
+               <td>{{element}}</td>
+			   <br>  
+            </tr>
+         {% endfor %}	
+		</div> 	
 	</section>
 	
 	<section class="secondsection">

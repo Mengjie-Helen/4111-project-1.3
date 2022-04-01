@@ -135,7 +135,7 @@ def product_insurance_information():
       shift = "wrong insurance id typed, please return and type again"
       return render_template("shift_information.html", shift = shift)
     if len(shift) == 1:
-      shift = str(shift[0])
+      shift = [shift[0][0],shift[0][1],int(shift[0][2])]
       return render_template("shift_information.html", shift = shift)
 
   if len(idget) == 3:
@@ -148,8 +148,12 @@ def product_insurance_information():
       shift = "wrong product id typed, please return and type again"
       return render_template("shift_information.html", shift = shift)
     if len(shift) == 1:
-      shift = str(shift[0])
+      shift = [shift[0][0],shift[0][1],int(shift[0][2])]
       return render_template("shift_information.html", shift = shift)
+
+  else: 
+    shift = "wrong id typed, please return and type again"
+    return render_template("shift_information.html", shift = shift)
 
 
 # manager search employee information
@@ -166,7 +170,7 @@ def employee_searching():
     shift = "wrong ssn typed, please return and type again"
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
-    shift = str(shift[0])
+    shift = [shift[0][0],shift[0][1],shift[0][2],int(shift[0][3]),str(shift[0][4]),shift[0][5]]
     return render_template("shift_information.html", shift = shift)
 
 
@@ -184,7 +188,7 @@ def payment_searching():
     shift = "wrong payment id typed, please return and type again"
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
-    shift = str(shift[0])
+    shift = [shift[0][0],int(shift[0][1]),shift[0][2],shift[0][3]]
     return render_template("shift_information.html", shift = shift)
 
 
@@ -220,7 +224,7 @@ def shop_list():
     shift = "wrong supplier id typed, please return and type again"
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
-    shift = str(shift[0])
+    shift = [shift[0][0],shift[0][1],int(shift[0][2]),int(shift[0][3]),int(shift[0][4])]
     return render_template("shift_information.html", shift = shift)
 
 
@@ -228,10 +232,18 @@ def shop_list():
 @app.route('/shop_information', methods=['POST'])
 def shop_information():
   addressget = request.form['name']
-  sql = "SELECT * FROM shop WHERE address = '%s' " % (addressget)
+  sql = "SELECT S.shop_name, S.address, S.zip, S.contact_info, S.rating, P.pname, P.unit_price FROM shop S, product_sold PS, product P WHERE S.shop_id = PS.shop_id and S.address = '%s' and PS.pid = P.pid  " % (addressget)
   cursor = g.conn.execute(sql)
-  shift = cursor.fetchall()
+  shift = []
+  all = []
+  for result in cursor:
+    all.append(result)
   cursor.close()
+  shift = [all[0][0],all[0][1],int(all[0][2]),int(all[0][3]),int(all[0][4])]
+  for i in range(len(all)):
+    shift.append(all[i][5])
+  #shift = cursor.fetchall()
+  #shift = [shift[0][0],shift[0][1],shift[0][2],int(shift[0][3]),int(shift[0][4]),int(shift[0][5])]
   if len(shift) == 0:
     shift = "wrong shop address typed, please return and type again"
     return render_template("shift_information.html", shift = shift)
