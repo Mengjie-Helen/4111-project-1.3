@@ -107,13 +107,12 @@ def store_info():
 def shift_information():
   ssnget = request.form['ssn']
   shift = []
-  sql = "SELECT shift FROM employee WHERE ssn = '%s' " % (ssnget)
-  cursor = engine.execute(sql)
+  cursor = engine.execute("SELECT shift FROM employee WHERE ssn = %s",(ssnget,))
   for result in cursor:
     shift.append(result["shift"])
   cursor.close()
   if len(shift) == 0:
-    shift = "wrong ssn typed, please return and type again"
+    shift = ["wrong ssn typed, please return and type again"]
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
     shift = str(shift[0])
@@ -126,26 +125,24 @@ def product_insurance_information():
   idget = request.form['id']
   shift = []
   if len(idget) == 7:
-    sql = "SELECT * FROM insurance WHERE insurance_id = '%s' " % (idget)
-    cursor = engine.execute(sql)
+    cursor = engine.execute("SELECT * FROM insurance WHERE insurance_id = %s ",(idget,))
     for result in cursor:
       shift.append(result)
     cursor.close()
     if len(shift) == 0:
-      shift = "wrong insurance id typed, please return and type again"
+      shift = ["wrong insurance id typed, please return and type again"]
       return render_template("shift_information.html", shift = shift)
     if len(shift) == 1:
       shift = [shift[0][0],shift[0][1],int(shift[0][2])]
       return render_template("shift_information.html", shift = shift)
 
   if len(idget) == 3:
-    sql = "SELECT * FROM product WHERE pid = '%s' " % (idget)
-    cursor = engine.execute(sql)
+    cursor = engine.execute("SELECT * FROM product WHERE pid = %s" ,(idget,))
     for result in cursor:
       shift.append(result)
     cursor.close()
     if len(shift) == 0:
-      shift = "wrong product id typed, please return and type again"
+      shift = ["wrong product id typed, please return and type again"]
       return render_template("shift_information.html", shift = shift)
     if len(shift) == 1:
       shift = [shift[0][0],shift[0][1],int(shift[0][2])]
@@ -161,13 +158,12 @@ def product_insurance_information():
 def employee_searching():
   ssnget = request.form['ssn']
   shift = []
-  sql = "SELECT * FROM employee WHERE ssn = '%s' " % (ssnget)
-  cursor = engine.execute(sql)
+  cursor = engine.execute("SELECT * FROM employee WHERE ssn = %s " ,(ssnget,))
   for result in cursor:
     shift.append(result)
   cursor.close()
   if len(shift) == 0:
-    shift = "wrong ssn typed, please return and type again"
+    shift = ["wrong ssn typed, please return and type again"]
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
     shift = [shift[0][0],shift[0][1],shift[0][2],int(shift[0][3]),str(shift[0][4]),shift[0][5]]
@@ -179,13 +175,12 @@ def employee_searching():
 def payment_searching():
   idget = request.form['id']
   shift = []
-  sql = "SELECT * FROM payment WHERE payment_id = '%s' " % (idget)
-  cursor = engine.execute(sql)
+  cursor = engine.execute("SELECT * FROM payment WHERE payment_id = %s", (idget,))
   for result in cursor:
     shift.append(result)
   cursor.close()
   if len(shift) == 0:
-    shift = "wrong payment id typed, please return and type again"
+    shift = ["wrong payment id typed, please return and type again"]
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
     shift = [shift[0][0],int(shift[0][1]),shift[0][2],shift[0][3]]
@@ -197,13 +192,12 @@ def payment_searching():
 def supplier_searching():
   idget = request.form['id']
   shift = []
-  sql = "SELECT * FROM supplier WHERE supplier_id = '%s' " % (idget)
-  cursor = engine.execute(sql)
+  cursor = engine.execute("SELECT * FROM supplier WHERE supplier_id = %s" , (idget,))
   for result in cursor:
     shift.append(result)
   cursor.close()
   if len(shift) == 0:
-    shift = "wrong supplier id typed, please return and type again"
+    shift = ["wrong supplier id typed, please return and type again"]
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
     shift = str(shift[0])
@@ -215,13 +209,12 @@ def supplier_searching():
 def shop_list():
   idget = request.form['id']
   shift = []
-  sql = "SELECT S.shop_name, S.address, S.zip, S.contact_info, S.rating FROM shop S, shop_supplied SS WHERE S.shop_id = SS.shop_id and SS.supplier_id = '%s' " % (idget)
-  cursor = engine.execute(sql)
+  cursor = engine.execute("SELECT S.shop_name, S.address, S.zip, S.contact_info, S.rating FROM shop S, shop_supplied SS WHERE S.shop_id = SS.shop_id and SS.supplier_id = %s " , (idget,))
   for result in cursor:
     shift.append(result)
   cursor.close()
   if len(shift) == 0:
-    shift = "wrong supplier id typed, please return and type again"
+    shift = ["wrong supplier id typed, please return and type again"]
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
     shift = [shift[0][0],shift[0][1],int(shift[0][2]),int(shift[0][3]),int(shift[0][4])]
@@ -232,23 +225,22 @@ def shop_list():
 @app.route('/shop_information', methods=['POST'])
 def shop_information():
   addressget = request.form['name']
-  sql = "SELECT S.shop_name, S.address, S.zip, S.contact_info, S.rating, P.pname, P.unit_price FROM shop S, product_sold PS, product P WHERE S.shop_id = PS.shop_id and S.address = '%s' and PS.pid = P.pid  " % (addressget)
-  cursor = g.conn.execute(sql)
+  cursor = g.conn.execute("SELECT S.shop_name, S.address, S.zip, S.contact_info, S.rating, P.pname, P.unit_price FROM shop S, product_sold PS, product P WHERE S.shop_id = PS.shop_id and S.address = %s and PS.pid = P.pid  " , (addressget,))
   shift = []
   all = []
   for result in cursor:
     all.append(result)
+  if not all:
+    shift = ['wrong shop address typed, please return and type again']
+    return render_template("shift_information.html", shift = shift)
   cursor.close()
   shift = [all[0][0],all[0][1],int(all[0][2]),int(all[0][3]),int(all[0][4])]
   for i in range(len(all)):
     shift.append(all[i][5])
   #shift = cursor.fetchall()
   #shift = [shift[0][0],shift[0][1],shift[0][2],int(shift[0][3]),int(shift[0][4]),int(shift[0][5])]
-  if len(shift) == 0:
-    shift = "wrong shop address typed, please return and type again"
-    return render_template("shift_information.html", shift = shift)
-  else:
-    return render_template("shift_information.html", shift = shift)
+  print(shift)
+  return render_template("shift_information.html", shift = shift)
 
 
 # add new customer information to the database 
@@ -284,8 +276,13 @@ def payment_info():
   amount = request.form['amount']
   method = request.form["method"]
   productid = request.form["product_id"]
-
-  g.conn.execute("INSERT INTO customer VALUES (%s,%s,%s,%s,%s)",(customer_ssn,name,address,email,telephone))
+  
+  cursor = engine.execute("SELECT name FROM customer WHERE ssn = %s" , (customer_ssn,))
+  try:
+    cursor.mappings().all()[0]['name']
+    print('Customer exists')
+  except:
+    g.conn.execute("INSERT INTO customer VALUES (%s,%s,%s,%s,%s)",(customer_ssn,name,address,email,telephone))
   g.conn.execute("INSERT INTO payment (amount,method_way,customer_ssn) VALUES (%s,%s,%s)",(amount,method,customer_ssn))
   g.conn.execute("INSERT INTO customer_buy VALUES (%s,%s)",(customer_ssn,productid))
   return render_template("main.html")

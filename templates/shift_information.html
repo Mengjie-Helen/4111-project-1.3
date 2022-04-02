@@ -29,9 +29,9 @@
 	<style> 
 		.juzhong{text-align:center;
 			font-family: 'Piazzolla', serif;
-    		color: rgb(59, 104, 59);
+    		color: rgb(19, 99, 8);
     		font-weight: bold;
-    		font-size: 45px;} 
+    		font-size: 32px;} 
 		</style>
 
 	<section class="firstsection">
@@ -41,10 +41,9 @@
 		<br>
 		<br>
 		<div class="juzhong">
-			{% for element in shift %}
+			{% for row in shift %}
             <tr>
-               <td>{{element}}</td>
-			   <br>  
+               <td>{{row}}</td> 
             </tr>
          {% endfor %}	
 		</div> 	
