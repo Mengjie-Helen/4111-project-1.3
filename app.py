@@ -37,21 +37,6 @@ def teardown_request(exception):
 def homepage():
   return render_template("main.html")
 
-# web employee login page
-@app.route('/employee_login')
-def employee_login():
-  return render_template("employee.html")
-
-# web manager login page
-@app.route('/manager_login')
-def manager_login():
-  return render_template("manager.html")
-
-# web supplier login page
-@app.route('/supplier_login')
-def supplier_login():
-  return render_template("supplier.html")
-
 # web store display page
 @app.route('/store')
 def store():
@@ -286,6 +271,62 @@ def payment_info():
   g.conn.execute("INSERT INTO payment (amount,method_way,customer_ssn) VALUES (%s,%s,%s)",(amount,method,customer_ssn))
   g.conn.execute("INSERT INTO customer_buy VALUES (%s,%s)",(customer_ssn,productid))
   return render_template("main.html")
+
+
+# web employee login page
+@app.route('/employee_login')
+def employee_login():
+  return render_template("employee.html")
+
+# web manager login page
+@app.route('/manager_login')
+def manager_login():
+  return render_template("manager.html")
+
+# web supplier login page
+@app.route('/supplier_login')
+def supplier_login():
+  return render_template("supplier.html")
+
+
+@app.route('/employee_login_test',methods=['POST'])
+def employee_login_test():
+  nameget = request.form['name']
+  ssnget = request.form['ssn']
+  cursor = engine.execute("SELECT * FROM employee WHERE name = %s AND ssn = %s", (nameget,ssnget))
+  try:
+    cursor.mappings().all()[0]
+    return render_template("employee_login_after.html")
+  except:
+    shift = ["name and ssn do not match, please return and type again"]
+    return render_template("shift_information.html", shift = shift)
+
+@app.route('/manager_login_test',methods=['POST'])
+def manager_login_test():
+  nameget = request.form['name']
+  ssnget = request.form['ssn']
+  cursor = engine.execute("SELECT * FROM manager WHERE name = %s AND ssn = %s", (nameget,ssnget))
+  try:
+    cursor.mappings().all()[0]
+    return render_template("manager_login_after.html")
+  except:
+    shift = ["name and ssn do not match, please return and type again"]
+    return render_template("shift_information.html", shift = shift)
+
+@app.route('/supplier_login_test',methods=['POST'])
+def supplier_login_test():
+  nameget = request.form['name']
+  ssnget = request.form['id']
+  cursor = engine.execute("SELECT * FROM supplier WHERE supplier_name = %s AND supplier_id = %s", (nameget,ssnget))
+  try:
+    cursor.mappings().all()[0]
+    return render_template("supplier_login_after.html")
+  except:
+    shift = ["supplier name and supplier id do not match, please return and type again"]
+    return render_template("shift_information.html", shift = shift)
+    
+ 
+
 
 
 
