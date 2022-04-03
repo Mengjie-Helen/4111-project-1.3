@@ -16,8 +16,8 @@ Petco operates more than 20 Petco stores in New York City which offer a wide ran
 This ER-model contains basically the whole procedure of how the Petco stores run. 
 We take entities such as customer, payment, insurance, pet, product, employee, manager, shop, and supplier.
 
-+ The PostgreSQL account is:
-+ The URL of the web application is: (https://)
++ The PostgreSQL account is: mz2840
++ The URL of the web application is: (http://35.229.113.142:8111/)
 
 **Implementation of the proposal**: 
 
@@ -41,9 +41,9 @@ Manager is able to:
 Supplier is able to:
 + View shop product list
 
-As for the Admin part mentioned in Part 1 proposal, we moved the Record payment information to Employee, the Query shop directory to Employee and Manager, the Edit supply list to Manager.
+As for the Admin part mentioned in Part 1 proposal, we moved the Record payment information to Employee, the Query shop directory to Employee and Manager, the Query supply list to Manager.
 We did not implement On-Board/De-Board Employees and On-Board/De-Board Managers function, because that requires to change the SQL schema (add ON DELETION option)
 
 **Description of two web pages**
-+ Type in shop address to search for the shop information as well as the product it serves. This requires the join of three tables(prodect, product_sold, shop)
-+ Type in 
++ Type in shop address to search for the shop information as well as the product it serves. This requires the join of three tables(prodect, product_sold, shop).
++ Insert the information in three tables: customer, payment, customer_buy in database by a single page. Because the same customer will go to the store many times to buy different products, which will lead to the same customer information, but different products or payment information they purchased. Therefore, it is necessary to first determine whether the customer's information has been recorded before, if so, skip recording customer information directly, and record payment and customer_buy information. In this case, employees can efficiently process customer and payment information.
