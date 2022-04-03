@@ -317,13 +317,19 @@ def manager_login_test():
 def supplier_login_test():
   nameget = request.form['name']
   ssnget = request.form['id']
-  cursor = engine.execute("SELECT * FROM supplier WHERE supplier_name = %s AND supplier_id = %s", (nameget,ssnget))
-  try:
-    cursor.mappings().all()[0]
-    return render_template("supplier_login_after.html")
-  except:
+  
+  if ssnget=='' or type(ssnget)==str:
     shift = ["supplier name and supplier id do not match, please return and type again"]
     return render_template("shift_information.html", shift = shift)
+  else:
+    cursor = engine.execute("SELECT * FROM supplier WHERE supplier_name = %s AND supplier_id = %s", (nameget,ssnget))
+    try:
+      cursor.mappings().all()[0]
+      return render_template("supplier_login_after.html")
+    except:
+     shift = ["supplier name and supplier id do not match, please return and type again"]
+     return render_template("shift_information.html", shift = shift)
+
     
  
 
