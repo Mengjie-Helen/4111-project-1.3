@@ -35,14 +35,13 @@ Manager is able to:
 + View employee information
 + View payment information
 + Query shop directory
-+ Edit supply list
 + View supplier list
 
 Supplier is able to:
 + View shop product list
 
 As for the Admin part mentioned in Part 1 proposal, we moved the Record payment information to Employee, the Query shop directory to Employee and Manager, the Query supply list to Manager.
-We did not implement On-Board/De-Board Employees and On-Board/De-Board Managers function, because that requires to change the SQL schema (add ON DELETION option)
+We did not implement On-Board/De-Board Employees and On-Board/De-Board Managers function, because that requires to change the SQL schema (add ON DELETION option).
 
 **Description of two web pages**
 + Type in shop address to search for the shop information as well as the product it serves. This requires the join of three tables(prodect, product_sold, shop).
