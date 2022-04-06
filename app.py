@@ -100,7 +100,7 @@ def shift_information():
     shift = ["wrong ssn typed, please return and type again"]
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
-    shift = str(shift[0])
+    shift = [shift[0]]
     return render_template("shift_information.html", shift = shift)
 
 
@@ -185,7 +185,7 @@ def supplier_searching():
     shift = ["wrong supplier id typed, please return and type again"]
     return render_template("shift_information.html", shift = shift)
   if len(shift) == 1:
-    shift = str(shift[0])
+    shift = [shift[0][0],shift[0][1],shift[0][2],shift[0][3]]
     return render_template("shift_information.html", shift = shift)
 
 
@@ -318,7 +318,7 @@ def supplier_login_test():
   nameget = request.form['name']
   ssnget = request.form['id']
   
-  if ssnget=='' or type(ssnget)==str:
+  if ssnget=='':
     shift = ["supplier name and supplier id do not match, please return and type again"]
     return render_template("shift_information.html", shift = shift)
   else:
